@@ -423,7 +423,7 @@ div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {
     position: fixed !important;
     top: 12px !important;
     left: 12px !important;
-    z-index: 1000000 !important;
+    z-index: 10000000 !important;
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -439,17 +439,18 @@ div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) b
     opacity: 1 !important;
     align-items: center !important;
     justify-content: center !important;
-    background: rgba(15, 23, 42, 0.04) !important;
-    border: 1.5px solid {border_color} !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 1px solid transparent !important;
     color: {text_pri} !important;
-    border-radius: 9px !important;
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    min-height: 40px !important;
+    border-radius: 8px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
     padding: 0 !important;
     margin: 0 !important;
-    font-size: 22px !important;
+    font-size: 20px !important;
     font-weight: 700 !important;
     line-height: 1 !important;
     box-shadow: none !important;
@@ -460,10 +461,11 @@ div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) b
 
 div.st-key-sidebar_toggle_button button:hover,
 div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) button:hover {{
-    background: rgba(56, 189, 248, 0.12) !important;
-    border-color: {brand_pri} !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
     color: {brand_pri} !important;
-    transform: translateY(-1px) !important;
+    transform: none !important;
     box-shadow: none !important;
 }}
 
@@ -568,9 +570,9 @@ div.row-widget.stRadio > div {{
 
 .divider {{
     border: none;
-    height: 1px;
-    background-color: {border_color};
-    margin: 14px 0;
+    height: 0px;
+    background: transparent !important;
+    margin: 0;
 }}
 </style>
 """
@@ -762,8 +764,82 @@ def build_alerts(city_df, city, live_aqi, forecasts, threshold=150):
     return alerts
 
 
+sidebar_button_left = 280 if st.session_state.get("sidebar_visible", True) else 16
+sidebar_is_visible = st.session_state.get("sidebar_visible", True)
+sidebar_width = "260px" if sidebar_is_visible else "0px"
+main_left = "260px" if sidebar_is_visible else "0px"
+st.markdown(f"""
+<style>
+    div.st-key-sidebar_toggle_button,
+    div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
+        left: {sidebar_button_left}px !important;
+    }}
+    section[data-testid="stSidebar"],
+    [data-testid="stSidebar"] {{
+        display: block !important;
+        visibility: visible !important;
+        width: {sidebar_width} !important;
+        min-width: {sidebar_width} !important;
+        max-width: {sidebar_width} !important;
+        opacity: {'1' if sidebar_is_visible else '0'} !important;
+        transform: {'translateX(0)' if sidebar_is_visible else 'translateX(-120%)'} !important;
+        overflow: hidden !important;
+        transition: width 0.25s ease, min-width 0.25s ease, max-width 0.25s ease, transform 0.25s ease, opacity 0.2s ease !important;
+    }}
+    [data-testid="stAppViewContainer"] > .main,
+    [data-testid="stAppViewContainer"] > [data-testid="stMain"] {{
+        margin-left: {main_left} !important;
+        width: calc(100% - {main_left}) !important;
+        max-width: calc(100% - {main_left}) !important;
+        overflow-x: hidden !important;
+    }}
+    [data-testid="stAppViewContainer"] > .main .block-container,
+    [data-testid="stAppViewContainer"] > [data-testid="stMain"] .block-container {{
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }}
+    div[data-testid="stTooltip"],
+    [role="tooltip"] {{
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }}
+    @media (max-width: 768px) {{
+        div.st-key-sidebar_toggle_button,
+        div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
+            left: 12px !important;
+        }}
+        [data-testid="stAppViewContainer"] > .main,
+        [data-testid="stAppViewContainer"] > [data-testid="stMain"] {{
+            margin-left: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }}
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+if st.button("☰", key="sidebar_toggle_button"):
+    st.session_state["sidebar_visible"] = not st.session_state.get("sidebar_visible", True)
+    st.rerun()
+
+with st.sidebar:
+    sb_head_c1, sb_head_c2 = st.columns([0.8, 0.2])
+    with sb_head_c1:
+        st.markdown("""
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:24px;">⚡</span>
+            <div>
+                <div style="font-weight:700; font-size:16px; line-height:1.1;">Pearls AQI</div>
+                <div style="font-size:11px; color:#60736B;">AI Intelligence Platform</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    # Sidebar close arrow intentionally hidden: the single persistent ☰ menu toggle is the only control.
+    st.markdown('<hr class="divider" style="margin:10px 0 16px 0;">', unsafe_allow_html=True)
+
 if st.session_state["user"] is None:
-    st.markdown("<style>[data-testid='stSidebar'], [data-testid='stSidebarCollapsedControl'], div.st-key-btn_toggle_sidebar_show { display: none !important; }</style>", unsafe_allow_html=True)
     st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)
     c_left, c_right = st.columns([1.1, 1.0], gap="large")
 
@@ -834,7 +910,7 @@ if st.session_state["user"] is None:
                 name_in = st.text_input("Full Name", key="portal_reg_name", placeholder="First Last")
                 email_reg = st.text_input("Email Address", key="portal_reg_email", placeholder="name@company.com")
                 pwd_reg = st.text_input("Password (min 8 chars)", type="password", key="portal_reg_pwd", placeholder="••••••••")
-                
+
                 if pwd_reg:
                     score, label, col = pwd_strength(pwd_reg)
                     st.markdown(f"""
@@ -882,55 +958,6 @@ if st.session_state["user"] is None:
             st.rerun()
 
     st.stop()
-
-sidebar_button_left = 280 if st.session_state.get("sidebar_visible", True) else 16
-st.markdown(f"""
-<style>
-    div.st-key-sidebar_toggle_button,
-    div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
-        left: {sidebar_button_left}px !important;
-    }}
-    [data-testid="stSidebar"] {{
-        display: {'block' if st.session_state.get('sidebar_visible', True) else 'none'} !important;
-        visibility: {'visible' if st.session_state.get('sidebar_visible', True) else 'hidden'} !important;
-        width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
-        min-width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
-        max-width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
-    }}
-    div[data-testid="stTooltip"],
-    [role="tooltip"] {{
-        display: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-    }}
-    @media (max-width: 768px) {{
-        div.st-key-sidebar_toggle_button,
-        div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
-            left: 12px !important;
-        }}
-    }}
-</style>
-""", unsafe_allow_html=True)
-
-if st.button("☰", key="sidebar_toggle_button"):
-    st.session_state["sidebar_visible"] = not st.session_state.get("sidebar_visible", True)
-    st.rerun()
-
-
-with st.sidebar:
-    sb_head_c1, sb_head_c2 = st.columns([0.8, 0.2])
-    with sb_head_c1:
-        st.markdown("""
-        <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:24px;">⚡</span>
-            <div>
-                <div style="font-weight:700; font-size:16px; line-height:1.1;">Pearls AQI</div>
-                <div style="font-size:11px; color:#60736B;">AI Intelligence Platform</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    # Sidebar close arrow intentionally hidden: the single persistent ☰ menu toggle is the only control.
-    st.markdown('<hr class="divider" style="margin:10px 0 16px 0;">', unsafe_allow_html=True)
 
     NAV_ITEMS = [
         "Overview", "Forecast", "Live Telemetry", "Historical Analytics",
