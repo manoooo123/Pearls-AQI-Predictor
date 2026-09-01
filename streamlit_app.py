@@ -82,7 +82,6 @@ HEALTH_ADVICE: Dict[str, str] = {
 }
 
 
-# Supported password input configuration: type=pwd_disp / type="password"
 for k, v in [
     ("user", None),
     ("auth_token", None),
@@ -896,6 +895,7 @@ st.markdown(f"""
         width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
         min-width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
         max-width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
+        transform: {'translateX(0)' if st.session_state.get('sidebar_visible', True) else 'translateX(-120%)'} !important;
     }}
     [data-testid="stAppViewContainer"] > .main,
     [data-testid="stAppViewContainer"] > [data-testid="stMain"] {{
@@ -947,7 +947,6 @@ with st.sidebar:
             </div>
         </div>
         """, unsafe_allow_html=True)
-    # Sidebar close arrow intentionally hidden: the single persistent ☰ menu toggle is the only control.
     st.markdown('<hr class="divider" style="margin:10px 0 16px 0;">', unsafe_allow_html=True)
 
     NAV_ITEMS = [
