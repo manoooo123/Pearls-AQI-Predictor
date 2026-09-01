@@ -929,6 +929,7 @@ st.markdown(f"""
         div.st-key-sidebar_toggle_button,
         div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
             left: 12px !important;
+            z-index: 10000000 !important;
         }}
         [data-testid="stAppViewContainer"] > .main,
         [data-testid="stAppViewContainer"] > [data-testid="stMain"] {{
@@ -952,6 +953,7 @@ st.markdown(f"""
         div.st-key-sidebar_toggle_button,
         div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
             left: 12px !important;
+            z-index: 10000000 !important;
         }}
         [data-testid="stAppViewContainer"] > .main,
         [data-testid="stAppViewContainer"] > [data-testid="stMain"] {{
