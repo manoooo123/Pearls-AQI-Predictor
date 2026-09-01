@@ -927,6 +927,29 @@ st.markdown(f"""
             max-width: 100% !important;
         }}
     }}
+    @media (min-width: 769px) and (max-width: 1024px) {{
+        [data-testid="stSidebar"] {{
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: min(82vw, 300px) !important;
+            min-width: min(82vw, 300px) !important;
+            max-width: min(82vw, 300px) !important;
+            height: 100vh !important;
+            z-index: 9999999 !important;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4) !important;
+        }}
+        div.st-key-sidebar_toggle_button,
+        div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
+            left: 12px !important;
+        }}
+        [data-testid="stAppViewContainer"] > .main,
+        [data-testid="stAppViewContainer"] > [data-testid="stMain"] {{
+            margin-left: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }}
+    }}
 </style>
 """, unsafe_allow_html=True)
 
