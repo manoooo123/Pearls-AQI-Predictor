@@ -897,6 +897,18 @@ st.markdown(f"""
         min-width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
         max-width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
     }}
+    [data-testid="stAppViewContainer"] > .main,
+    [data-testid="stAppViewContainer"] > [data-testid="stMain"] {{
+        margin-left: {'260px' if st.session_state.get('sidebar_visible', True) else '0px'} !important;
+        width: calc(100% - {'260px' if st.session_state.get('sidebar_visible', True) else '0px'}) !important;
+        max-width: calc(100% - {'260px' if st.session_state.get('sidebar_visible', True) else '0px'}) !important;
+    }}
+    [data-testid="stAppViewContainer"] > .main .block-container,
+    [data-testid="stAppViewContainer"] > [data-testid="stMain"] .block-container {{
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }}
     div[data-testid="stTooltip"],
     [role="tooltip"] {{
         display: none !important;
@@ -907,6 +919,12 @@ st.markdown(f"""
         div.st-key-sidebar_toggle_button,
         div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
             left: 12px !important;
+        }}
+        [data-testid="stAppViewContainer"] > .main,
+        [data-testid="stAppViewContainer"] > [data-testid="stMain"] {{
+            margin-left: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
         }}
     }}
 </style>
