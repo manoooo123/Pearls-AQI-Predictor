@@ -763,7 +763,6 @@ def build_alerts(city_df, city, live_aqi, forecasts, threshold=150):
 
 
 if st.session_state["user"] is None:
-    st.markdown("<style>[data-testid='stSidebar'], [data-testid='stSidebarCollapsedControl'], div.st-key-btn_toggle_sidebar_show { display: none !important; }</style>", unsafe_allow_html=True)
     st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)
     c_left, c_right = st.columns([1.1, 1.0], gap="large")
 
@@ -880,8 +879,6 @@ if st.session_state["user"] is None:
             }
             st.session_state["logged_out"] = False
             st.rerun()
-
-    st.stop()
 
 sidebar_button_left = 280 if st.session_state.get("sidebar_visible", True) else 16
 st.markdown(f"""
@@ -1001,6 +998,9 @@ with st.sidebar:
         if st.button("🔒 Sign In / Register", key="sidebar_login_btn", use_container_width=True):
             st.session_state["logged_out"] = True
             st.rerun()
+
+if st.session_state["user"] is None:
+    st.stop()
 
 user = st.session_state["user"]
 city = st.session_state["selected_city"]
