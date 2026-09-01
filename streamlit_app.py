@@ -916,6 +916,16 @@ st.markdown(f"""
         visibility: hidden !important;
     }}
     @media (max-width: 768px) {{
+        [data-testid="stSidebar"] {{
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: min(82vw, 300px) !important;
+            min-width: min(82vw, 300px) !important;
+            max-width: min(82vw, 300px) !important;
+            height: 100vh !important;
+            z-index: 9999999 !important;
+        }}
         div.st-key-sidebar_toggle_button,
         div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
             left: 12px !important;
