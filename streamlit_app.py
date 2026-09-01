@@ -372,8 +372,10 @@ div[data-baseweb="input"], div[data-baseweb="base-input"] {{
     border-right: 1px solid {border_color} !important;
     width: 260px !important;
     min-width: 260px !important;
+    max-width: 260px !important;
     z-index: 9999999 !important;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-sizing: border-box !important;
 }}
 
 @media (max-width: 768px) {{
@@ -381,6 +383,9 @@ div[data-baseweb="input"], div[data-baseweb="base-input"] {{
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
+        width: min(82vw, 300px) !important;
+        min-width: min(82vw, 300px) !important;
+        max-width: min(82vw, 300px) !important;
         height: 100vh !important;
         z-index: 9999999 !important;
         box-shadow: 0 0 30px rgba(0, 0, 0, 0.4) !important;
@@ -393,33 +398,48 @@ div[data-baseweb="input"], div[data-baseweb="base-input"] {{
     flex-direction: column !important;
     justify-content: space-between !important;
     min-height: 100vh !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }}
 
-/* Collapsed Control Button - Icon Only ☰ (No Text) */
 [data-testid="stSidebarCollapsedControl"],
-div.st-key-btn_toggle_sidebar_show,
-div[data-testid="stElementContainer"]:has(button[key="btn_toggle_sidebar_show"]) {{
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+[data-testid="stExpandSidebarButton"],
+button[aria-label="Open"],
+button[aria-label="Close"],
+div.st-key-btn_toggle_sidebar_hide,
+div[data-testid="stElementContainer"]:has(button[key="btn_toggle_sidebar_hide"]) {{
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}}
+
+/* Single persistent icon toggle button */
+div.st-key-sidebar_toggle_button,
+div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
     position: fixed !important;
     top: 12px !important;
     left: 12px !important;
-    z-index: 999999 !important;
+    z-index: 1000000 !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     pointer-events: auto !important;
     width: 40px !important;
     height: 40px !important;
 }}
 
-[data-testid="stSidebarCollapsedControl"] button,
-div.st-key-btn_toggle_sidebar_show button,
-div[data-testid="stElementContainer"]:has(button[key="btn_toggle_sidebar_show"]) button {{
+div.st-key-sidebar_toggle_button button,
+div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) button {{
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
     align-items: center !important;
     justify-content: center !important;
-    background-color: {bg_card} !important;
+    background: rgba(15, 23, 42, 0.04) !important;
     border: 1.5px solid {border_color} !important;
     color: {text_pri} !important;
     border-radius: 9px !important;
@@ -429,29 +449,53 @@ div[data-testid="stElementContainer"]:has(button[key="btn_toggle_sidebar_show"])
     min-height: 40px !important;
     padding: 0 !important;
     margin: 0 !important;
-    font-size: 18px !important;
-    font-weight: 600 !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
     line-height: 1 !important;
-    box-shadow: {card_shadow} !important;
+    box-shadow: none !important;
     cursor: pointer !important;
     pointer-events: auto !important;
     transition: all 0.2s ease !important;
 }}
 
-[data-testid="stSidebarCollapsedControl"] button:hover,
-div.st-key-btn_toggle_sidebar_show button:hover {{
-    background-color: {bg_card_sec} !important;
+div.st-key-sidebar_toggle_button button:hover,
+div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) button:hover {{
+    background: rgba(56, 189, 248, 0.12) !important;
     border-color: {brand_pri} !important;
     color: {brand_pri} !important;
-    transform: translateY(-1px) scale(1.03) !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: none !important;
 }}
 
-[data-testid="stSidebarCollapsedControl"] svg {{
-    fill: {text_pri} !important;
-    color: {text_pri} !important;
-    width: 20px !important;
-    height: 20px !important;
+@media (max-width: 768px) {{
+    div.st-key-sidebar_toggle_button,
+    div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
+        top: 10px !important;
+        left: 12px !important;
+    }}
+}}
+
+/* Header responsiveness */
+[data-testid="stHorizontalBlock"] > div {{
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}}
+
+[data-testid="stSelectbox"],
+[data-testid="stBaseButton-secondary"],
+[data-testid="stBaseButton-primary"],
+[data-testid="stForm"] {{
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}}
+
+@media (max-width: 900px) {{
+    [data-testid="stHorizontalBlock"] {{
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+    }}
 }}
 
 /* Hide Sidebar Control Button Inside Sidebar Header */
@@ -839,20 +883,38 @@ if st.session_state["user"] is None:
 
     st.stop()
 
-if not st.session_state.get("sidebar_visible", True):
-    st.markdown("""
-    <style>
-    [data-testid="stSidebar"] {
+sidebar_button_left = 280 if st.session_state.get("sidebar_visible", True) else 16
+st.markdown(f"""
+<style>
+    div.st-key-sidebar_toggle_button,
+    div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
+        left: {sidebar_button_left}px !important;
+    }}
+    [data-testid="stSidebar"] {{
+        display: {'block' if st.session_state.get('sidebar_visible', True) else 'none'} !important;
+        visibility: {'visible' if st.session_state.get('sidebar_visible', True) else 'hidden'} !important;
+        width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
+        min-width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
+        max-width: {'260px' if st.session_state.get('sidebar_visible', True) else '0'} !important;
+    }}
+    div[data-testid="stTooltip"],
+    [role="tooltip"] {{
         display: none !important;
+        opacity: 0 !important;
         visibility: hidden !important;
-        width: 0 !important;
-        min-width: 0 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    if st.button("☰", key="btn_toggle_sidebar_show", help="Open Navigation Menu"):
-        st.session_state["sidebar_visible"] = True
-        st.rerun()
+    }}
+    @media (max-width: 768px) {{
+        div.st-key-sidebar_toggle_button,
+        div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
+            left: 12px !important;
+        }}
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+if st.button("☰", key="sidebar_toggle_button"):
+    st.session_state["sidebar_visible"] = not st.session_state.get("sidebar_visible", True)
+    st.rerun()
 
 
 with st.sidebar:
@@ -867,11 +929,7 @@ with st.sidebar:
             </div>
         </div>
         """, unsafe_allow_html=True)
-    with sb_head_c2:
-        if st.button("◀", key="btn_toggle_sidebar_hide", help="Close Navigation Menu"):
-            st.session_state["sidebar_visible"] = False
-            st.rerun()
-
+    # Sidebar close arrow intentionally hidden: the single persistent ☰ menu toggle is the only control.
     st.markdown('<hr class="divider" style="margin:10px 0 16px 0;">', unsafe_allow_html=True)
 
     NAV_ITEMS = [
@@ -983,18 +1041,18 @@ live_cat, live_col, live_bg, live_health = get_aqi_details(live_aqi if live_aqi 
 is_live = latest_pm25 is not None
 
 
-th_col1, th_col2 = st.columns([2.5, 1.5])
+th_col1, th_col2 = st.columns([2.8, 1.7], gap="small")
 
 with th_col1:
     st.markdown(f"""
-    <div style="display:flex; align-items:center; gap:16px;">
-        <h2 style="margin:0; font-size:22px;">Pearls AQI Predictor</h2>
-        <span style="font-size:13px; color:#60736B; font-weight:500;">AI Environmental Intelligence</span>
+    <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap;">
+        <h2 style="margin:0; font-size:22px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Pearls AQI Predictor</h2>
+        <span style="font-size:13px; color:#60736B; font-weight:500; white-space:nowrap;">AI Environmental Intelligence</span>
     </div>
     """, unsafe_allow_html=True)
 
 with th_col2:
-    c_city, c_theme = st.columns([2, 1])
+    c_city, c_theme = st.columns([2.2, 1.1], gap="small")
     with c_city:
         sel_c = st.selectbox("City Selector", list(CITIES.keys()), index=list(CITIES.keys()).index(city), label_visibility="collapsed")
         if sel_c != city:
