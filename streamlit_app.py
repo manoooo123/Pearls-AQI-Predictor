@@ -213,7 +213,6 @@ p, span, div, label {{
     font-size: 13px !important;
     color: {text_sec} !important;
 }}
-
 /* Custom Cards */
 .industry-card {{
     background-color: {bg_card} !important;
@@ -223,6 +222,8 @@ p, span, div, label {{
     margin-bottom: 18px !important;
     box-shadow: {card_shadow} !important;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }}
 
 .industry-card:hover {{
@@ -234,12 +235,15 @@ p, span, div, label {{
     background-color: {bg_card} !important;
     border: 1px solid {border_color} !important;
     border-radius: 14px !important;
-    padding: 18px 20px !important;
-    height: 140px !important;
+    padding: 16px 18px !important;
+    min-height: 125px !important;
+    height: auto !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
     box-shadow: {card_shadow} !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }}
 
 .kpi-title {{
@@ -248,40 +252,47 @@ p, span, div, label {{
     color: {text_sec} !important;
     text-transform: uppercase !important;
     letter-spacing: 0.06em !important;
+    word-break: break-word !important;
 }}
 
 .kpi-number {{
-    font-size: 30px !important;
+    font-size: 28px !important;
     font-weight: 700 !important;
     line-height: 1.1 !important;
     color: {brand_pri} !important;
     margin: 2px 0 !important;
+    word-break: break-word !important;
 }}
 
 .forecast-card {{
     background-color: {bg_card} !important;
     border: 1px solid {border_color} !important;
     border-radius: 16px !important;
-    padding: 20px !important;
-    height: 200px !important;
+    padding: 18px 16px !important;
+    min-height: 175px !important;
+    height: auto !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
     text-align: center !important;
     box-shadow: {card_shadow} !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }}
 
 /* Pill Strip Widgets */
 .pill-strip {{
     display: flex;
-    gap: 10px;
+    gap: 8px 12px;
     flex-wrap: wrap;
     align-items: center;
     background: {bg_card};
     border: 1px solid {border_color};
-    padding: 8px 16px;
-    border-radius: 30px;
+    padding: 10px 16px;
+    border-radius: 24px;
     margin-bottom: 18px;
+    max-width: 100%;
+    box-sizing: border-box;
 }}
 
 .pill-item {{
@@ -291,11 +302,23 @@ p, span, div, label {{
     display: flex;
     align-items: center;
     gap: 6px;
+    word-break: break-word;
 }}
 
 .pill-val {{
     color: {brand_pri};
     font-weight: 700;
+}}
+
+@media (max-width: 600px) {{
+    .pill-strip {{
+        padding: 8px 12px !important;
+        border-radius: 12px !important;
+        gap: 6px 8px !important;
+    }}
+    .pill-divider {{
+        display: none !important;
+    }}
 }}
 
 /* Inputs & Form Controls — Uniform Width, Equal Spacing, Precise Alignment */
@@ -377,14 +400,14 @@ div[data-baseweb="input"], div[data-baseweb="base-input"] {{
     box-sizing: border-box !important;
 }}
 
-@media (max-width: 768px) {{
+@media (max-width: 1024px) {{
     [data-testid="stSidebar"] {{
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
-        width: min(82vw, 300px) !important;
-        min-width: min(82vw, 300px) !important;
-        max-width: min(82vw, 300px) !important;
+        width: min(85vw, 290px) !important;
+        min-width: min(85vw, 290px) !important;
+        max-width: min(85vw, 290px) !important;
         height: 100vh !important;
         z-index: 9999999 !important;
         box-shadow: 0 0 30px rgba(0, 0, 0, 0.4) !important;
@@ -466,7 +489,7 @@ div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) b
     box-shadow: none !important;
 }}
 
-@media (max-width: 768px) {{
+@media (max-width: 1024px) {{
     div.st-key-sidebar_toggle_button,
     div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) {{
         top: 10px !important;
@@ -474,7 +497,7 @@ div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) b
     }}
 }}
 
-/* Header responsiveness */
+/* Header & Column responsiveness */
 [data-testid="stHorizontalBlock"] > div {{
     min-width: 0 !important;
     max-width: 100% !important;
@@ -490,11 +513,59 @@ div[data-testid="stElementContainer"]:has(button[key="sidebar_toggle_button"]) b
     box-sizing: border-box !important;
 }}
 
-@media (max-width: 900px) {{
+@media (max-width: 768px) {{
     [data-testid="stHorizontalBlock"] {{
         flex-wrap: wrap !important;
-        gap: 0.5rem !important;
+        gap: 0.75rem !important;
     }}
+    [data-testid="stHorizontalBlock"] > div[data-testid="column"],
+    [data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+        width: 100% !important;
+    }}
+    .auth-card {{
+        padding: 20px 16px !important;
+        min-height: auto !important;
+    }}
+}}
+
+@media (min-width: 769px) and (max-width: 1024px) {{
+    [data-testid="stHorizontalBlock"] {{
+        flex-wrap: wrap !important;
+        gap: 0.75rem !important;
+    }}
+    [data-testid="stHorizontalBlock"] > div[data-testid="column"],
+    [data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+        min-width: calc(50% - 0.5rem) !important;
+        flex: 1 1 calc(50% - 0.5rem) !important;
+    }}
+}}
+
+/* Data Pipeline Architecture Responsive Grid */
+.pipeline-grid {{
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 12px !important;
+    margin-top: 16px !important;
+    text-align: center !important;
+}}
+@media (max-width: 900px) {{
+    .pipeline-grid {{
+        grid-template-columns: repeat(3, 1fr) !important;
+    }}
+}}
+@media (max-width: 600px) {{
+    .pipeline-grid {{
+        grid-template-columns: repeat(1, 1fr) !important;
+    }}
+}}
+
+/* Plotly Chart Responsive Container */
+.js-plotly-plot, .plot-container, .plotly {{
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
 }}
 
 /* Hide Sidebar Control Button Inside Sidebar Header */
@@ -1124,13 +1195,13 @@ if st.session_state["current_nav"] == "Overview":
     st.markdown(f"""
     <div class="pill-strip">
         <div class="pill-item">📍 City: <span class="pill-val">{city}</span></div>
-        <div style="color:#DCE6E0;">|</div>
+        <div class="pill-divider" style="color:#DCE6E0;">|</div>
         <div class="pill-item">📡 Network: <span class="pill-val">OpenAQ v3 API</span></div>
-        <div style="color:#DCE6E0;">|</div>
+        <div class="pill-divider" style="color:#DCE6E0;">|</div>
         <div class="pill-item">🤖 Model: <span class="pill-val">Ridge Regression (+24h/+48h/+72h)</span></div>
-        <div style="color:#DCE6E0;">|</div>
+        <div class="pill-divider" style="color:#DCE6E0;">|</div>
         <div class="pill-item">⏱️ Latency: <span class="pill-val">0.4 ms</span></div>
-        <div style="color:#DCE6E0;">|</div>
+        <div class="pill-divider" style="color:#DCE6E0;">|</div>
         <div class="pill-item">🔒 Auth Session: <span class="pill-val">Active (PBKDF2-HMAC)</span></div>
     </div>
     """, unsafe_allow_html=True)
@@ -1218,8 +1289,8 @@ if st.session_state["current_nav"] == "Overview":
         fig_overview = px.area(f_df, x="Horizon", y="AQI", markers=True, title=f"AQI Trajectory & Multi-Horizon Trend — {city}",
                                color_discrete_sequence=["#8B5CF6"])
         fig_overview.add_hline(y=150, line_dash="dash", line_color="#EA580C", annotation_text="Unhealthy (150)")
-        fig_overview.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=350)
-        st.plotly_chart(fig_overview, use_container_width=True)
+        fig_overview.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=350, autosize=True, margin=dict(l=20, r=20, t=40, b=30))
+        st.plotly_chart(fig_overview, use_container_width=True, config={"responsive": True})
 
     st.markdown("<h3>📊 Environmental Telemetry</h3>", unsafe_allow_html=True)
     m1, m2, m3, m4, m5 = st.columns(5)
@@ -1248,8 +1319,8 @@ elif st.session_state["current_nav"] == "Forecast":
         fig = px.line(f_df, x="Horizon", y="AQI", markers=True, title=f"Predicted AQI Trajectory — {city}",
                       line_shape="spline", color_discrete_sequence=["#8B5CF6"])
         fig.add_hline(y=150, line_dash="dash", line_color="#EA580C", annotation_text="Unhealthy Threshold (150)")
-        fig.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=380)
-        st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=380, autosize=True, margin=dict(l=20, r=20, t=40, b=30))
+        st.plotly_chart(fig, use_container_width=True, config={"responsive": True})
 
     bm = load_best_models()
     if bm:
@@ -1283,20 +1354,20 @@ elif st.session_state["current_nav"] == "Historical Analytics":
 
         fig = px.line(hist_df, x="hour", y="aqi", title=f"AQI Trend Over Time ({time_range}) — {city}",
                       color_discrete_sequence=["#8B5CF6" if st.session_state["theme"]=="light" else "#38BDF8"])
-        fig.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=400)
-        st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=400, autosize=True, margin=dict(l=20, r=20, t=40, b=30))
+        st.plotly_chart(fig, use_container_width=True, config={"responsive": True})
 
         col1, col2 = st.columns(2)
         with col1:
             fig_scat = px.scatter(hist_df.dropna(subset=["temperature", "aqi"]), x="temperature", y="aqi", color="humidity",
                                   title="Temperature vs AQI", color_continuous_scale="Purples")
-            fig_scat.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=320)
-            st.plotly_chart(fig_scat, use_container_width=True)
+            fig_scat.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=320, autosize=True, margin=dict(l=20, r=20, t=40, b=30))
+            st.plotly_chart(fig_scat, use_container_width=True, config={"responsive": True})
 
         with col2:
             fig_hist = px.histogram(hist_df["pm25_mean"].dropna(), nbins=40, title="PM2.5 Distribution", color_discrete_sequence=["#0D9488"])
-            fig_hist.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=320)
-            st.plotly_chart(fig_hist, use_container_width=True)
+            fig_hist.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=320, autosize=True, margin=dict(l=20, r=20, t=40, b=30))
+            st.plotly_chart(fig_hist, use_container_width=True, config={"responsive": True})
 
 
 elif st.session_state["current_nav"] == "Model Performance":
@@ -1334,8 +1405,8 @@ elif st.session_state["current_nav"] == "Explainability":
         top = sdf.nlargest(12, "mean_absolute_shap").copy()
         fig = px.bar(top, x="mean_absolute_shap", y="feature", orientation="h", title=f"Top Feature Importances (+{hz})",
                      color="mean_absolute_shap", color_continuous_scale="Purples")
-        fig.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=420, yaxis=dict(autorange="reversed"))
-        st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=420, autosize=True, margin=dict(l=20, r=20, t=40, b=30), yaxis=dict(autorange="reversed"))
+        st.plotly_chart(fig, use_container_width=True, config={"responsive": True})
     else:
         demo_f = pd.DataFrame({
             "feature": ["PM2.5 (24h Mean)", "Temperature", "Humidity", "Wind Speed", "Pressure", "Hour of Day"],
@@ -1343,8 +1414,8 @@ elif st.session_state["current_nav"] == "Explainability":
         })
         fig = px.bar(demo_f, x="importance", y="feature", orientation="h", title=f"Feature Importances (+{hz})",
                      color="importance", color_continuous_scale="Purples")
-        fig.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=380, yaxis=dict(autorange="reversed"))
-        st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(template="plotly_white" if st.session_state["theme"]=="light" else "plotly_dark", height=380, autosize=True, margin=dict(l=20, r=20, t=40, b=30), yaxis=dict(autorange="reversed"))
+        st.plotly_chart(fig, use_container_width=True, config={"responsive": True})
 
 
 elif st.session_state["current_nav"] == "Alerts":
@@ -1377,7 +1448,7 @@ elif st.session_state["current_nav"] == "Data Pipeline":
     st.markdown("""
     <div class="industry-card">
         <h4>Pipeline Stages & Status</h4>
-        <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin-top:16px; text-align:center;">
+        <div class="pipeline-grid">
             <div style="padding:12px; border-radius:10px; border:1px solid #DCE6E0;">
                 <div style="font-size:18px;">📡</div>
                 <div style="font-weight:600; font-size:12px;">1. Ingestion</div>
